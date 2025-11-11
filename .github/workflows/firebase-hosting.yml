@@ -8,30 +8,34 @@ on:
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
+    
+    # 🚨 ပြင်ဆင်ရမည့် နေရာ (၁) 🚨
+    # Project ၏ Root Folder ကို သတ်မှတ်ခြင်း
+    defaults:
+      run:
+        working-directory: ./YouWarePOS
+
     steps:
       - uses: actions/checkout@v3
 
-      # 1. Flutter SDK ကို ထည့်သွင်းခြင်း
       - name: Install Flutter SDK
         uses: subosito/flutter-action@v2
         with:
           channel: stable
           cache: true
 
-      # 2. Dependencies များကို သွင်းခြင်း (အရေးကြီးဆုံး အဆင့်)
       - name: Get Dependencies
         run: flutter pub get
 
-      # 3. Flutter Web ကို Build လုပ်ခြင်း
       - name: Build Flutter Web
         run: flutter build web
 
-      # 4. Firebase Hosting သို့ Deploy လုပ်ခြင်း
       - name: Deploy to Firebase Hosting
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-          # Build လုပ်ထားသော folder ကို ညွှန်ပြခြင်း
-          entryPoint: build/web
+          # 🚨 ပြင်ဆင်ရမည့် နေရာ (၂) 🚨
+          # Build artifacts တွေဟာ YouWarePOS အောက်မှာ ရှိတာကို ညွှန်ပြခြင်း
+          entryPoint: YouWarePOS/build/web
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
           channelId: live
