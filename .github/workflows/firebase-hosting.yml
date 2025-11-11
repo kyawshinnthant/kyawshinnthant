@@ -9,11 +9,10 @@ jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
     
-    # 🚨 ပြင်ဆင်ရမည့် နေရာ (၁) 🚨
-    # Project ၏ Root Folder ကို သတ်မှတ်ခြင်း
+    # 🚨 ပြင်ဆင်ချက် (၁): POS ကို working directory အဖြစ် သတ်မှတ်ခြင်း
     defaults:
       run:
-        working-directory: ./YouWarePOS
+        working-directory: ./POS
 
     steps:
       - uses: actions/checkout@v3
@@ -33,9 +32,8 @@ jobs:
       - name: Deploy to Firebase Hosting
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-          # 🚨 ပြင်ဆင်ရမည့် နေရာ (၂) 🚨
-          # Build artifacts တွေဟာ YouWarePOS အောက်မှာ ရှိတာကို ညွှန်ပြခြင်း
-          entryPoint: YouWarePOS/build/web
+          # 🚨 ပြင်ဆင်ချက် (၂): entryPoint ကို POS/build/web ဖြင့် သတ်မှတ်ခြင်း
+          entryPoint: POS/build/web
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
           channelId: live
